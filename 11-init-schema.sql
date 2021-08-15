@@ -1,0 +1,8 @@
+use test;
+
+CREATE TABLE IF NOT EXISTS items (
+  name VARCHAR(32) NOT NULL,
+  description VARCHAR(64) NOT NULL,
+  PRIMARY KEY (name)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+

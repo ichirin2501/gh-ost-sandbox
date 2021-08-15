@@ -1,0 +1,7 @@
+FROM mysql:5.7
+
+ADD https://github.com/ichirin2501/mysql_random_data_load/releases/download/patch-01/mysql_random_data_load_patch_01_linux_amd64.tar.gz /tmp/mysql_random_data_load.tar.gz
+RUN mkdir -p /tmp/mysql_random_data_load && \
+    tar zxvf /tmp/mysql_random_data_load.tar.gz -C /tmp/mysql_random_data_load && \
+    mv /tmp/mysql_random_data_load/mysql_random_data_load /usr/local/bin
+
