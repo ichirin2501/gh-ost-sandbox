@@ -1,5 +1,9 @@
 FROM mysql:5.7
 
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends --no-install-suggests \
+    vim netcat-openbsd
+
 ADD https://github.com/github/gh-ost/releases/download/v1.0.48/gh-ost-binary-linux-20190214020851.tar.gz /tmp/gh-ost.tar.gz
 RUN mkdir -p /tmp/gh-ost && \
     tar zxvf /tmp/gh-ost.tar.gz -C /tmp/gh-ost && \

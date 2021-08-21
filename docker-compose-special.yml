@@ -4,7 +4,6 @@ services:
   sp-a-db-master:
     build:
       context: .
-      dockerfile: Dockerfile.db
     environment:
       MYSQL_DATABASE: test
       MYSQL_ALLOW_EMPTY_PASSWORD: 1
@@ -18,7 +17,6 @@ services:
   sp-a-db-replica-1:
     build:
       context: .
-      dockerfile: Dockerfile.db
     environment:
       MYSQL_DATABASE: test
       MYSQL_ALLOW_EMPTY_PASSWORD: 1
@@ -33,7 +31,6 @@ services:
   sp-a-db-replica-2:
     build:
       context: .
-      dockerfile: Dockerfile.db
     environment:
       MYSQL_DATABASE: test
       MYSQL_ALLOW_EMPTY_PASSWORD: 1
@@ -48,7 +45,6 @@ services:
   sp-b-db-master:
     build:
       context: .
-      dockerfile: Dockerfile.db
     environment:
       MYSQL_DATABASE: test
       MYSQL_ALLOW_EMPTY_PASSWORD: 1
@@ -62,7 +58,6 @@ services:
   sp-b-db-replica-1:
     build:
       context: .
-      dockerfile: Dockerfile.db
     environment:
       MYSQL_DATABASE: test
       MYSQL_ALLOW_EMPTY_PASSWORD: 1
@@ -77,7 +72,6 @@ services:
   sp-b-db-replica-2:
     build:
       context: .
-      dockerfile: Dockerfile.db
     environment:
       MYSQL_DATABASE: test
       MYSQL_ALLOW_EMPTY_PASSWORD: 1
@@ -92,7 +86,6 @@ services:
   sp-db-replica-msr:
     build:
       context: .
-      dockerfile: Dockerfile.db
     environment:
       MYSQL_DATABASE: test
       MYSQL_ALLOW_EMPTY_PASSWORD: 1
