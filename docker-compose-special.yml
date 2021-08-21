@@ -1,10 +1,6 @@
 version: "3"
 
 services:
-  sp-gh-ost:
-    build:
-      context: .
-      dockerfile: Dockerfile.gh-ost
   sp-a-db-master:
     build:
       context: .
