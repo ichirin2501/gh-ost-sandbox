@@ -14,3 +14,4 @@ RUN mkdir -p /tmp/mysql_random_data_load && \
     tar zxvf /tmp/mysql_random_data_load.tar.gz -C /tmp/mysql_random_data_load && \
     mv /tmp/mysql_random_data_load/mysql_random_data_load /usr/local/bin
 
+HEALTHCHECK --interval=5s --timeout=3s CMD test -e /tmp/OK

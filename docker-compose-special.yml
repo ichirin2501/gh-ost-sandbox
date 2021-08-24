@@ -12,6 +12,7 @@ services:
       - ./my.cnf:/etc/mysql/conf.d/my.cnf
       - ./10-init-schema.sql:/docker-entrypoint-initdb.d/10-init-schema.sql
       - ./21-init-data.sh:/docker-entrypoint-initdb.d/21-init-data.sh
+      - ./99-touch-OK.sh:/docker-entrypoint-initdb.d/99-touch-OK.sh
     command:
       - --server_id=1
   sp-a-db-replica-1:
@@ -23,7 +24,8 @@ services:
       MYSQL_MASTER_SERVERS: sp-a-db-master
     volumes:
       - ./my.cnf:/etc/mysql/conf.d/my.cnf
-      - ./setup-replica.sh:/docker-entrypoint-initdb.d/setup-replica.sh
+      - ./40-setup-replica.sh:/docker-entrypoint-initdb.d/40-setup-replica.sh
+      - ./99-touch-OK.sh:/docker-entrypoint-initdb.d/99-touch-OK.sh
     command:
       - --server_id=2
     depends_on:
@@ -37,7 +39,8 @@ services:
       MYSQL_MASTER_SERVERS: sp-a-db-master
     volumes:
       - ./my.cnf:/etc/mysql/conf.d/my.cnf
-      - ./setup-replica.sh:/docker-entrypoint-initdb.d/setup-replica.sh
+      - ./40-setup-replica.sh:/docker-entrypoint-initdb.d/40-setup-replica.sh
+      - ./99-touch-OK.sh:/docker-entrypoint-initdb.d/99-touch-OK.sh
     command:
       - --server_id=3
     depends_on:
@@ -53,6 +56,7 @@ services:
       - ./my.cnf:/etc/mysql/conf.d/my.cnf
       - ./11-init-schema.sql:/docker-entrypoint-initdb.d/11-init-schema.sql
       - ./21-init-data.sh:/docker-entrypoint-initdb.d/21-init-data.sh
+      - ./99-touch-OK.sh:/docker-entrypoint-initdb.d/99-touch-OK.sh
     command:
       - --server_id=101
   sp-b-db-replica-1:
@@ -64,7 +68,8 @@ services:
       MYSQL_MASTER_SERVERS: sp-b-db-master
     volumes:
       - ./my.cnf:/etc/mysql/conf.d/my.cnf
-      - ./setup-replica.sh:/docker-entrypoint-initdb.d/setup-replica.sh
+      - ./40-setup-replica.sh:/docker-entrypoint-initdb.d/40-setup-replica.sh
+      - ./99-touch-OK.sh:/docker-entrypoint-initdb.d/99-touch-OK.sh
     command:
       - --server_id=102
     depends_on:
@@ -78,7 +83,8 @@ services:
       MYSQL_MASTER_SERVERS: sp-b-db-master
     volumes:
       - ./my.cnf:/etc/mysql/conf.d/my.cnf
-      - ./setup-replica.sh:/docker-entrypoint-initdb.d/setup-replica.sh
+      - ./40-setup-replica.sh:/docker-entrypoint-initdb.d/40-setup-replica.sh
+      - ./99-touch-OK.sh:/docker-entrypoint-initdb.d/99-touch-OK.sh
     command:
       - --server_id=103
     depends_on:
@@ -92,7 +98,8 @@ services:
       MYSQL_MASTER_SERVERS: sp-a-db-replica-1,sp-b-db-replica-1
     volumes:
       - ./my.cnf:/etc/mysql/conf.d/my.cnf
-      - ./setup-replica.sh:/docker-entrypoint-initdb.d/setup-replica.sh
+      - ./40-setup-replica.sh:/docker-entrypoint-initdb.d/40-setup-replica.sh
+      - ./99-touch-OK.sh:/docker-entrypoint-initdb.d/99-touch-OK.sh
     command:
       - --server_id=104
     depends_on:
