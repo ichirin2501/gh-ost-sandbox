@@ -1,0 +1,108 @@
+version: "3"
+
+services:
+  ut-a-db-master:
+    build:
+      context: .
+    environment:
+      MYSQL_DATABASE: test
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+      MYSQL_INIT_DATA_SIZE_LIST: users:100,banks:300000
+    volumes:
+      - ./my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./10-init-schema.sql:/docker-entrypoint-initdb.d/10-init-schema.sql
+      - ./21-init-data.sh:/docker-entrypoint-initdb.d/21-init-data.sh
+      - ./99-touch-OK.sh:/docker-entrypoint-initdb.d/99-touch-OK.sh
+    command:
+      - --server_id=1
+  ut-a-db-replica-1:
+    build:
+      context: .
+    environment:
+      MYSQL_DATABASE: test
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+      MYSQL_MASTER_SERVERS: ut-a-db-master
+    volumes:
+      - ./my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./40-setup-replica.sh:/docker-entrypoint-initdb.d/40-setup-replica.sh
+      - ./99-touch-OK.sh:/docker-entrypoint-initdb.d/99-touch-OK.sh
+    command:
+      - --server_id=2
+    depends_on:
+      - ut-a-db-master
+  ut-a-db-replica-2:
+    build:
+      context: .
+    environment:
+      MYSQL_DATABASE: test
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+      MYSQL_MASTER_SERVERS: ut-a-db-master
+    volumes:
+      - ./my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./40-setup-replica.sh:/docker-entrypoint-initdb.d/40-setup-replica.sh
+      - ./99-touch-OK.sh:/docker-entrypoint-initdb.d/99-touch-OK.sh
+    command:
+      - --server_id=3
+    depends_on:
+      - ut-a-db-master
+  ut-b-db-master:
+    build:
+      context: .
+    environment:
+      MYSQL_DATABASE: test
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+      MYSQL_INIT_DATA_SIZE_LIST: items:100
+    volumes:
+      - ./my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./11-init-schema.sql:/docker-entrypoint-initdb.d/11-init-schema.sql
+      - ./21-init-data.sh:/docker-entrypoint-initdb.d/21-init-data.sh
+      - ./99-touch-OK.sh:/docker-entrypoint-initdb.d/99-touch-OK.sh
+    command:
+      - --server_id=101
+  ut-b-db-replica-1:
+    build:
+      context: .
+    environment:
+      MYSQL_DATABASE: test
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+      MYSQL_MASTER_SERVERS: ut-b-db-master
+    volumes:
+      - ./my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./40-setup-replica.sh:/docker-entrypoint-initdb.d/40-setup-replica.sh
+      - ./99-touch-OK.sh:/docker-entrypoint-initdb.d/99-touch-OK.sh
+    command:
+      - --server_id=102
+    depends_on:
+      - ut-b-db-master
+  ut-b-db-replica-2:
+    build:
+      context: .
+    environment:
+      MYSQL_DATABASE: test
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+      MYSQL_MASTER_SERVERS: ut-b-db-master
+    volumes:
+      - ./my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./40-setup-replica.sh:/docker-entrypoint-initdb.d/40-setup-replica.sh
+      - ./99-touch-OK.sh:/docker-entrypoint-initdb.d/99-touch-OK.sh
+    command:
+      - --server_id=103
+    depends_on:
+      - ut-b-db-master
+  ut-db-replica-msr:
+    build:
+      context: .
+    environment:
+      MYSQL_DATABASE: test
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+      MYSQL_MASTER_SERVERS: ut-a-db-replica-1,ut-b-db-replica-1
+    volumes:
+      - ./my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./40-setup-replica.sh:/docker-entrypoint-initdb.d/40-setup-replica.sh
+      - ./70-update-trigger.sql:/docker-entrypoint-initdb.d/70-update-trigger.sql
+      - ./99-touch-OK.sh:/docker-entrypoint-initdb.d/99-touch-OK.sh
+    command:
+      - --server_id=104
+    depends_on:
+      - ut-a-db-replica-1
+      - ut-b-db-replica-1
