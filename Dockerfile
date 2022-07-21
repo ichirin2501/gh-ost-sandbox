@@ -1,8 +1,11 @@
 FROM mysql:5.7
 
+# https://dev.mysql.com/doc/mysql-apt-repo-quick-guide/en/#repo-qg-apt-repo-manual-setup
+RUN apt-key adv --keyserver pgp.mit.edu --recv-keys 3A79BD29
+
 RUN apt-get update && \
     apt-get install -y --no-install-recommends --no-install-suggests \
-    vim netcat-openbsd less
+    vim netcat-openbsd less locales-all
 
 ADD https://github.com/github/gh-ost/releases/download/v1.0.48/gh-ost-binary-linux-20190214020851.tar.gz /tmp/gh-ost.tar.gz
 RUN mkdir -p /tmp/gh-ost && \
