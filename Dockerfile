@@ -1,7 +1,9 @@
 FROM mysql:5.7-debian
 
 # https://dev.mysql.com/doc/mysql-apt-repo-quick-guide/en/#repo-qg-apt-repo-manual-setup
-RUN apt-key adv --keyserver pgp.mit.edu --recv-keys 3A79BD29
+RUN gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys A8D3785C && \
+    rm /etc/apt/keyrings/mysql.gpg && \
+    gpg --output /etc/apt/keyrings/mysql.gpg --export A8D3785C
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends --no-install-suggests \
