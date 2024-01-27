@@ -15,6 +15,10 @@ services:
       - ./99-touch-OK.sh:/docker-entrypoint-initdb.d/99-touch-OK.sh
     command:
       - --server_id=1
+    ports:
+      - "8889:3306"
+    networks:
+      - db-network
   db-replica-1:
     build:
       context: .
@@ -30,6 +34,10 @@ services:
       - --server_id=2
     depends_on:
       - db-master
+    ports:
+      - "8888:3306"
+    networks:
+      - db-network
   db-replica-2:
     build:
       context: .
@@ -45,3 +53,10 @@ services:
       - --server_id=3
     depends_on:
       - db-master
+    ports:
+      - "8887:3306"
+    networks:
+      - db-network
+
+networks:
+  db-network:
